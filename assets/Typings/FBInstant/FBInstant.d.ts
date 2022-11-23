@@ -729,7 +729,7 @@
          * @throws PENDING_REQUEST
          * @throws CLIENT_UNSUPPORTED_OPERATION
          */
-        switchAsync(id: string): Promise<void>;
+        switchAsync(id: string, switchSilentlyIfSolo: boolean): Promise<void>;
 
         /**
          * Opens a context selection dialog for the player. If the player selects an available context, the client will attempt to switch into that context,
@@ -759,7 +759,7 @@
          * @throws PENDING_REQUEST
          * @throws CLIENT_UNSUPPORTED_OPERATION
          */
-        createAsync(playerID: string): Promise<void>;
+        createAsync(playerID?: string): Promise<void>;
 
         /**
          * Gets an array of ContextPlayer objects containing information about active players — people who actively played the game in the current context in the last 90 days.
