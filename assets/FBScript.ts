@@ -1,4 +1,4 @@
-import { assetManager, Component, EditBox, ImageAsset, Sprite, SpriteFrame, Texture2D, _decorator } from 'cc';
+import { Component, EditBox, ImageAsset, Sprite, SpriteFrame, Texture2D, _decorator, assetManager } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('FBScript')
@@ -170,6 +170,61 @@ export class FBScript extends Component {
             .then(function () {
                 console.log(FBInstant.context.getID());
             });
+    }
+
+    private keys: string[] = ['name', 'score', 'rank', 'dead'];
+
+    async onSetDataButton() {
+        let storeData: FBInstant.DataObject = {
+            [this.keys[0]]: "Raffie",
+            [this.keys[1]]: 1.753,
+            [this.keys[2]]: 2,
+            [this.keys[3]]: true,
+        }
+        await this.setData(storeData);
+        console.log('data set')
+    }
+
+    async onGetDataButton() {
+        let data = await this.getData(this.keys);
+        console.log(data);
+        console.log(data[this.keys[0]])
+        console.log(data[this.keys[1]])
+        console.log(data[this.keys[2]])
+        console.log(data[this.keys[3]])
+    }
+
+    setData(data: FBInstant.DataObject) {
+        return new Promise<void>((resolve, reject) => {
+            FBInstant.player.setDataAsync(data)
+                .then(() => {
+                    console.log("Saved ", data)
+                    resolve();
+                }, () => {
+                    console.log("Not saved ")
+                    reject();
+                })
+                .catch(() => {
+                    console.log("Not saved 2222")
+                    reject();
+                });
+        })
+    }
+
+    getData(keys: string[]) {
+        return new Promise<FBInstant.DataObject>((resolve, reject) => {
+            FBInstant.player.getDataAsync(keys)
+                .then((dat) => {
+                    resolve(dat);
+                }, () => {
+                    console.log("Failed Retrieved ")
+                    reject();
+                })
+                .catch(() => {
+                    console.log("Failed Retrieved 2222")
+                    reject();
+                });
+        })
     }
 }
 
